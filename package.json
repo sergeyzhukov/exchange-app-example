@@ -19,6 +19,7 @@
     "react-redux": "^6.0.0",
     "redux": "^4.0.0",
     "redux-api-middleware": "^3.0.1",
+    "redux-form": "^8.1.0",
     "redux-persist": "v4",
     "reselect": "^4.0.0",
     "uuid": "^3.3.2"
