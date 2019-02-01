@@ -8,48 +8,19 @@
  */
 
 import React, { Component } from 'react'
-import {
-  createBottomTabNavigator,
-  createAppContainer,
-  createStackNavigator,
-} from 'react-navigation'
-import DashboardScreen from './screens/DashboardScreen'
-import TransactionsScreen from './screens/TransactionsScreen'
-import ReceiveScreen from './screens/ReceiveScreen'
-import CurrencyScreen from './screens/CurrencyScreen'
+import { Provider } from 'react-redux'
+import createStore from './createStore'
+import createRootNavigationStack from './RootNavigationStack'
 
-const TransactionsStack = createStackNavigator({
-  Transactions: TransactionsScreen,
-})
-
-const DashboardStack = createStackNavigator({
-  Dashboard: DashboardScreen,
-  Currency: CurrencyScreen,
-  Receive: ReceiveScreen,
-})
-
-DashboardStack.navigationOptions = ({ navigation }) => {
-  let tabBarVisible = true
-  if (navigation.state.index > 0) {
-    tabBarVisible = false
-  }
-
-  return {
-    tabBarVisible,
-  }
-}
-
-
-const RootStack = createAppContainer(createBottomTabNavigator({
-  Dashboard: DashboardStack,
-  Exchange: TransactionsStack,
-  Transactions: TransactionsStack,
-}))
+const store = createStore()
+const RootStack = createRootNavigationStack()
 
 export default class App extends Component {
   render() {
     return (
-      <RootStack />
+      <Provider store={store}>
+        <RootStack />
+      </Provider>
     )
   }
 }

@@ -1,86 +1,71 @@
 import React, { Component } from 'react'
 import {
-  View, StyleSheet, SafeAreaView, StatusBar, Text, FlatList,
+  View, StyleSheet, SafeAreaView, StatusBar, SectionList,
 } from 'react-native'
+import { connect } from 'react-redux'
 import { NavigationEvents } from 'react-navigation'
+import { createSelector } from 'reselect'
+import TransactionListItem from '../../components/TransactionListItem'
+import SeparatorView from '../../components/SeparatorView'
+import TransactionSectionHeader from '../../components/TransactionSectionHeader'
+import {
+  getGroupedTransactionsListSelector,
+  getTransactionsListSelector,
+} from '../../selectors'
 
-const TICKERS = [
-  {
-    base: 'USD',
-    amount: 303.43,
-  },
-  {
-    base: 'EUR',
-    amount: 119.33,
-  },
-  {
-    base: 'CHF',
-    amount: 4053.11,
-  },
-]
-
-export default class TransactionsScreen extends Component {
+class TransactionsScreen extends Component {
   static navigationOptions = {
-    tabBarLabel: 'Transactions',
+    title: 'Transactions',
   }
+
+  keyExtractor = item => item.uuid
 
   handleTabFocus = () => {
     StatusBar.setBarStyle('dark-content')
   }
 
-  renderItem = ({ item }) => {
-    const { base, amount } = item
-    return <View />
-  }
+  renderSectionHeader = ({ section: { title } }) => (
+    <TransactionSectionHeader title={title} />
+  )
 
-  renderSeparator = () => <View style={styles.separator} />
+  renderItem = ({ item }) => <TransactionListItem transaction={item} showAccount />
+
+  renderSeparator = () => <SeparatorView />
 
   render() {
+    const { transactions } = this.props
+
     return (
       <SafeAreaView style={styles.container}>
         <NavigationEvents onWillFocus={this.handleTabFocus} />
-        <View style={styles.innerContainer}>
-          <FlatList
-            data={[]}
-            style={styles.table}
-            renderItem={this.renderItem}
-            ItemSeparatorComponent={this.renderSeparator}
-          />
-        </View>
+        <SectionList
+          sections={transactions}
+          keyExtractor={this.keyExtractor}
+          style={styles.table}
+          renderItem={this.renderItem}
+          renderSectionHeader={this.renderSectionHeader}
+          ItemSeparatorComponent={this.renderSeparator}
+        />
+
       </SafeAreaView>
     )
   }
 }
+
+const mapStateToProps = createSelector(
+  getGroupedTransactionsListSelector(getTransactionsListSelector),
+  transactions => ({ transactions })
+)
+
+export default connect(mapStateToProps, null)(TransactionsScreen)
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#4072B8',
     flex: 1,
   },
-  innerContainer: {
-    flex: 1,
-    backgroundColor: 'white',
-  },
   table: {
+    backgroundColor: 'white',
     flex: 1,
-  },
-  separator: {
-    backgroundColor: '#C8C7CC',
-    height: StyleSheet.hairlineWidth,
-    marginLeft: 16,
-  },
-  topContainer: {
-    alignItems: 'center',
-    paddingVertical: 16,
-    backgroundColor: '#4072B8',
-  },
-  topTotal: {
-    color: 'white',
-    fontSize: 12,
-  },
-  topTotalValue: {
-    fontWeight: 'bold',
-    fontSize: 20,
-    color: 'white',
   },
 })

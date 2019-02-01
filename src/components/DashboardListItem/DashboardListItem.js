@@ -1,16 +1,19 @@
 import React, { PureComponent } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { formatCurrency } from '../../utils/formatters'
 
 export default class DashboardListItem extends PureComponent {
   render() {
-    const { base, amount, onPress } = this.props
+    const { code, balance, nativeSymbol, name, onPress } = this.props
 
     return (
       <TouchableOpacity style={styles.container} onPress={onPress}>
-        <View style={styles.nameContainer}>
-          <Text style={styles.name}>{base}</Text>
+        <View style={styles.icon} />
+        <View style={styles.textContainer}>
+          <Text style={styles.code}>{code}</Text>
+          <Text style={styles.name} numberOfLines={1}>{name}</Text>
         </View>
-        <Text style={styles.amount}>{amount}</Text>
+        <Text style={styles.amount}>{formatCurrency(balance)} {nativeSymbol}</Text>
       </TouchableOpacity>
     )
   }
@@ -20,51 +23,33 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     height: 64,
-    marginHorizontal: 16,
+    paddingHorizontal: 16,
     alignItems: 'center',
     flexDirection: 'row',
   },
-  valuesContainer: {
-    alignItems: 'flex-end',
+  icon: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginRight: 12,
+    backgroundColor: '#efefef',
   },
-  nameContainer: {
+  textContainer: {
     flex: 1,
   },
+  code: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#000000',
+  },
   name: {
-    fontSize: 15,
-    color: '#333333',
+    marginTop: 4,
+    fontSize: 12,
+    color: '#747474',
   },
   amount: {
     fontSize: 18,
     fontWeight: '500',
     color: 'black',
-  },
-
-  changeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  change: {
-    fontSize: 10,
-    marginLeft: 2,
-    color: '#777777',
-  },
-  indicatorUp: {
-    tintColor: 'green',
-    transform: [
-      { scaleY: -1 },
-    ],
-  },
-  indicatorDown: {
-    tintColor: 'red',
-  },
-  last: {
-    fontSize: 15,
-    marginBottom: 4,
-    color: '#333333',
-  },
-  high: {
-    fontSize: 10,
-    color: '#777777',
   },
 })

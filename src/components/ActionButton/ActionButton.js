@@ -1,15 +1,14 @@
 import React, { PureComponent } from 'react'
-import {
-  View, Text, StyleSheet, TouchableOpacity,
-} from 'react-native'
+import { Text, StyleSheet, TouchableOpacity } from 'react-native'
+import Icon from 'react-native-vector-icons/Entypo'
 
 export default class ActionButton extends PureComponent {
   render() {
-    const { title, onPress } = this.props
+    const { title, onPress, iconName } = this.props
 
     return (
       <TouchableOpacity style={styles.container} onPress={onPress}>
-        <View style={styles.icon} />
+        <Icon name={iconName} size={24} color="white" />
         <Text style={styles.title}>{title}</Text>
       </TouchableOpacity>
     )
@@ -19,12 +18,6 @@ export default class ActionButton extends PureComponent {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    // backgroundColor: 'red',
-  },
-  icon: {
-    width: 24,
-    height: 24,
-    backgroundColor: 'grey',
   },
   title: {
     marginTop: 12,

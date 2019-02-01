@@ -1,41 +1,35 @@
 import React, { Component } from 'react'
 import {
-  View, StyleSheet, SafeAreaView, StatusBar, Text, FlatList, TouchableOpacity,
+  View,
+  StyleSheet,
+  SafeAreaView,
+  StatusBar,
+  Text,
+  FlatList,
+  TouchableOpacity,
 } from 'react-native'
+import Icon from 'react-native-vector-icons/Entypo'
 import { NavigationEvents } from 'react-navigation'
-
-
+import { createSelector } from 'reselect'
+import { connect } from 'react-redux'
+import { loadCurrencyNames, loadCurrencySymbols } from '../../actions'
 import DashboardListItem from '../../components/DashboardListItem'
+import SeparatorView from '../../components/SeparatorView'
+import { accountsListSelector, getCurrenciesDictionarySelector } from '../../selectors'
 
-const TICKERS = [
-  {
-    type: 'currency',
-    base: 'USD',
-    amount: 303.43,
-  },
-  {
-    type: 'currency',
-    base: 'EUR',
-    amount: 119.33,
-  },
-  {
-    type: 'currency',
-    base: 'CHF',
-    amount: 4053.11,
-  },
-  {
-    type: 'add_more',
-  },
-]
-
-export default class DashboardScreen extends Component {
+class DashboardScreen extends Component {
   static navigationOptions = {
-    tabBarLabel: 'Dashboard',
-    header: null,
     headerBackTitle: null,
+    headerTransparent: true,
     headerStyle: {
-      backgroundColor: '#4072B8',
+      borderBottomWidth: 0,
     },
+  }
+
+  componentDidMount() {
+    this.props.loadCurrencySymbols().then(() => {
+      this.props.loadCurrencyNames()
+    })
   }
 
   handleTabFocus = () => {
@@ -46,91 +40,112 @@ export default class DashboardScreen extends Component {
     StatusBar.setBarStyle('dark-content')
   }
 
-  keyExtractor = item => `${item.type}_${item.base}`
+  keyExtractor = item => `${item.type}_${item.code}`
 
-  renderItem = ({ item }) => {
-    switch (item.type) {
-      case 'currency': {
-        const { base, amount } = item
-        return (
-          <DashboardListItem
-            base={base}
-            amount={amount}
-            onPress={this.handleItemPress(base)}
-          />
-        )
-      }
-      case 'add_more':
-        return (
-          <TouchableOpacity style={styles.addMoreContainer}>
-            <Text>Add currency</Text>
-          </TouchableOpacity>
-        )
-      default:
-        return null
-    }
+  handleAddCurrency = () => {
+    this.props.navigation.navigate('AddCurrency')
   }
 
   handleItemPress = base => () => {
-    this.props.navigation.navigate('Currency')
+    this.props.navigation.navigate('Currency', {
+      code: base,
+    })
   }
 
-  renderTableHeader = () => (
+  renderHeader = () => (
     <View style={styles.topContainer}>
       <Text style={styles.topTotal}>Total balance</Text>
       <Text style={styles.topTotalValue}>32 USD</Text>
     </View>
   )
 
-  renderSeparator = () => <View style={styles.separator} />
+  renderSeparator = () => <SeparatorView />
+
+  renderItem = ({ item }) => {
+    const { currencies } = this.props
+    const { code, balance, nativeSymbol } = item
+    return (
+      <DashboardListItem
+        code={code}
+        balance={balance}
+        name={currencies[code].name}
+        nativeSymbol={nativeSymbol}
+        onPress={this.handleItemPress(code)}
+      />
+    )
+  }
+
+  renderAddButton = () => (
+    <TouchableOpacity style={styles.addButton} onPress={this.handleAddCurrency}>
+      <Icon name="plus" size={28} color="white" />
+    </TouchableOpacity>
+  )
 
   render() {
+    const { accounts } = this.props
+
     return (
       <SafeAreaView style={styles.container}>
         <StatusBar barStyle="light-content" />
         <NavigationEvents onWillFocus={this.handleTabFocus} onWillBlur={this.handleBlur} />
-        {this.renderTableHeader()}
-        <View style={styles.innerContainer}>
-          <FlatList
-            data={TICKERS}
-            style={styles.table}
-            renderItem={this.renderItem}
-            han
-            keyExtractor={this.keyExtractor}
-
-            ItemSeparatorComponent={this.renderSeparator}
-          />
-        </View>
+        {this.renderHeader()}
+        <FlatList
+          data={accounts}
+          style={styles.table}
+          renderItem={this.renderItem}
+          keyExtractor={this.keyExtractor}
+          ItemSeparatorComponent={this.renderSeparator}
+        />
+        {this.renderAddButton()}
       </SafeAreaView>
     )
   }
 }
+
+const mapStateToProps = createSelector(
+  accountsListSelector,
+  getCurrenciesDictionarySelector,
+  ({ accounts }, { currencies }) => ({ accounts, currencies })
+)
+
+export default connect(
+  mapStateToProps,
+  { loadCurrencyNames, loadCurrencySymbols }
+)(DashboardScreen)
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#4072B8',
     flex: 1,
   },
-  innerContainer: {
-    flex: 1,
-    backgroundColor: 'white',
+  addButton: {
+    width: 48,
+    height: 48,
+    backgroundColor: '#4072B8',
+    borderRadius: 24,
+    position: 'absolute',
+    shadowOffset: { width: 0, height: 2 },
+    shadowColor: '#000000',
+    shadowRadius: 2,
+    shadowOpacity: 0.2,
+    right: 16,
+    bottom: 22,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   table: {
     flex: 1,
+    backgroundColor: 'white',
   },
   addMoreContainer: {
     height: 54,
     marginHorizontal: 16,
     justifyContent: 'center',
   },
-  separator: {
-    backgroundColor: '#C8C7CC',
-    height: StyleSheet.hairlineWidth,
-    marginLeft: 16,
-  },
   topContainer: {
     alignItems: 'center',
-    paddingVertical: 24,
+    paddingTop: 24,
+    paddingBottom: 16,
     backgroundColor: '#4072B8',
   },
   topTotal: {

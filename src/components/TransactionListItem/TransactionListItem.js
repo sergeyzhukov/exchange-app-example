@@ -1,71 +1,57 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import transactionStatuses from '../../constants/transactionStatuses'
+import { formatCurrency } from '../../utils/formatters'
 
-export default class TransactionListItem extends PureComponent {
-  render() {
-    const { title, amount, onPress } = this.props
+export default ({ transaction, onPress, showAccount }) => {
+  const { operation, amount, timestamp, symbol, account } = transaction
+  const status = transactionStatuses[operation]
+  const date = new Date(timestamp).toLocaleTimeString()
 
-    return (
-      <TouchableOpacity style={styles.container} onPress={onPress}>
-        <View style={styles.nameContainer}>
-          <Text style={styles.name}>{title}</Text>
-        </View>
-        <Text style={styles.amount}>{amount}</Text>
-      </TouchableOpacity>
-    )
-  }
+  return (
+    <TouchableOpacity style={styles.container} onPress={onPress}>
+      <View style={styles.icon} />
+      <View style={styles.operationContainer}>
+        <Text style={styles.status}>{showAccount ? `(${account}) ` : ''}{status.description}</Text>
+        <Text style={styles.date}>{date}</Text>
+      </View>
+      <Text style={styles.amount}>{status.increase ? '+' : '-'}{formatCurrency(amount)}{symbol}</Text>
+    </TouchableOpacity>
+  )
 }
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal: 16,
-    marginVertical: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
     alignItems: 'center',
     flexDirection: 'row',
   },
-  valuesContainer: {
-    alignItems: 'flex-end',
+  icon: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginRight: 12,
+    backgroundColor: '#efefef',
   },
-  nameContainer: {
+  operationContainer: {
     flex: 1,
   },
-  name: {
+  status: {
     fontSize: 14,
     color: 'black',
     letterSpacing: -0.2,
   },
+  date: {
+    fontSize: 12,
+    marginTop: 4,
+    color: '#999999',
+  },
   amount: {
-    fontSize: 18,
-    fontWeight: '500',
+    fontSize: 17,
+    // fontWeight: '500',
     color: 'black',
-  },
-
-  changeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  change: {
-    fontSize: 10,
-    marginLeft: 2,
-    color: '#777777',
-  },
-  indicatorUp: {
-    tintColor: 'green',
-    transform: [
-      { scaleY: -1 },
-    ],
-  },
-  indicatorDown: {
-    tintColor: 'red',
-  },
-  last: {
-    fontSize: 15,
-    marginBottom: 4,
-    color: '#333333',
-  },
-  high: {
-    fontSize: 10,
-    color: '#777777',
   },
 })
