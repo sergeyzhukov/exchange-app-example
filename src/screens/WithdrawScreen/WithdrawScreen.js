@@ -8,14 +8,20 @@ import BlueActionButton from '../../components/BlueActionButton'
 import CloseModalButton from '../../components/CloseModalButton'
 import MaterialFormTextInput from '../../components/MaterialFormTextInput'
 import { withdrawalFundsFromAccount } from '../../actions'
-import { getCurrencyByCodeSelector } from '../../selectors'
+import { getCurrencyByCodeSelector, getAccountByCodeSelector } from '../../selectors'
 import { validationRequired, validationMoreThan0, normalizeCurrency } from '../../utils/reduxFormHelpers'
+
 
 class WithdrawScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: 'Withdraw',
     headerLeft: (<CloseModalButton onPress={() => navigation.dismiss()} />),
   })
+
+  validateAmount = value => (parseFloat(value) <= parseFloat(this.props.account.balance)
+    ? undefined
+    : 'Insufficient funds'
+  )
 
   handleFocus = () => {
     StatusBar.setBarStyle('dark-content')
@@ -43,7 +49,7 @@ class WithdrawScreen extends Component {
           keyboardType="decimal-pad"
           placeholder={`Enter amount of ${currency.symbol_native} to receive`}
           normalize={normalizeCurrency}
-          validate={[validationRequired, validationMoreThan0]}
+          validate={[validationRequired, validationMoreThan0, this.validateAmount]}
           title="Amount"
           autoFocus
         />
@@ -61,7 +67,8 @@ const codeSelector = (state, props) => props.navigation.getParam('code')
 
 const mapStateToProps = createSelector(
   getCurrencyByCodeSelector(codeSelector),
-  currency => ({ currency })
+  getAccountByCodeSelector(codeSelector),
+  (currency, account) => ({ currency, account })
 )
 const mapDispatchToProps = { withdrawalFundsFromAccount }
 const Screen = connect(mapStateToProps, mapDispatchToProps)(WithdrawScreen)

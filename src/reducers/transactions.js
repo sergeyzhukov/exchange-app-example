@@ -22,6 +22,20 @@ export function transactions(state = initialState, action) {
         newTransaction,
       ]
     }
+    case ActionTypes.ACCOUNT_WiTHDRAW_MONEY: {
+      const newTransaction = {
+        uuid: uuid(),
+        account: payload.code,
+        symbol: payload.symbol,
+        amount: payload.amount,
+        operation: 'withdrawal',
+        timestamp: Date.now(),
+      }
+      return [
+        ...state,
+        newTransaction,
+      ]
+    }
     default:
       break
   }
