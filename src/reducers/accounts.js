@@ -18,10 +18,16 @@ export function accounts(state = initialState, action) {
       }
     case ActionTypes.ACCOUNT_RECEIVE_MONEY: {
       const account = state[payload.code]
-      account.balance += payload.amount
       return {
         ...state,
-        [payload.code]: account,
+        [payload.code]: { ...account, balance: account.balance + payload.amount },
+      }
+    }
+    case ActionTypes.ACCOUNT_WiTHDRAW_MONEY: {
+      const account = state[payload.code]
+      return {
+        ...state,
+        [payload.code]: { ...account, balance: account.balance - payload.amount },
       }
     }
     default:

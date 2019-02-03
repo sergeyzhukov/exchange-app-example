@@ -7,13 +7,13 @@ import { createSelector } from 'reselect'
 import BlueActionButton from '../../components/BlueActionButton'
 import CloseModalButton from '../../components/CloseModalButton'
 import MaterialFormTextInput from '../../components/MaterialFormTextInput'
-import { receiveFundsToAccount } from '../../actions'
+import { withdrawalFundsFromAccount } from '../../actions'
 import { getCurrencyByCodeSelector } from '../../selectors'
 import { validationRequired, validationMoreThan0, normalizeCurrency } from '../../utils/reduxFormHelpers'
 
-class ReceiveScreen extends Component {
+class WithdrawScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
-    title: 'Receive',
+    title: 'Withdraw',
     headerLeft: (<CloseModalButton onPress={() => navigation.dismiss()} />),
   })
 
@@ -27,7 +27,7 @@ class ReceiveScreen extends Component {
 
   handleReceivePress = async (params) => {
     const code = this.props.navigation.getParam('code')
-    await this.props.receiveFundsToAccount(code, Number(params.amount))
+    await this.props.withdrawalFundsFromAccount(code, Number(params.amount))
     this.props.navigation.dismiss()
   }
 
@@ -63,8 +63,9 @@ const mapStateToProps = createSelector(
   getCurrencyByCodeSelector(codeSelector),
   currency => ({ currency })
 )
+const mapDispatchToProps = { withdrawalFundsFromAccount }
+const Screen = connect(mapStateToProps, mapDispatchToProps)(WithdrawScreen)
 
-const Screen = connect(mapStateToProps, { receiveFundsToAccount })(ReceiveScreen)
 export default reduxForm({ form: 'receive' })(Screen)
 
 const styles = StyleSheet.create({

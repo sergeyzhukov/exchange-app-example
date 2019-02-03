@@ -13,3 +13,11 @@ export function receiveFundsToAccount(code, amount, symbol) {
     payload: { code, amount, symbol },
   }
 }
+
+export function withdrawalFundsFromAccount(code, amount, symbol) {
+  return {
+    type: ActionTypes.ACCOUNT_WiTHDRAW_MONEY,
+    payload: { code, amount, symbol },
+  }
+}
+

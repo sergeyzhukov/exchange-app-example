@@ -50,7 +50,11 @@ class CurrencyScreen extends Component {
         <Text style={styles.topTotal}>{currency.name}</Text>
         <Text style={styles.topTotalValue}>{formatCurrency(account.balance)} {currency.symbol_native}</Text>
         <View style={styles.actionsContainer}>
-          <ActionButton title="WITHDRAWAL" iconName="arrow-with-circle-up" />
+          <ActionButton
+            title="WITHDRAW"
+            iconName="arrow-with-circle-up"
+            onPress={this.handleActionButton('Withdraw')}
+          />
           <ActionButton title="EXCHANGE" iconName="swap" />
           <ActionButton
             title="RECEIVE"

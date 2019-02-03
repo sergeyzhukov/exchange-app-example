@@ -8,6 +8,7 @@ import Icon from 'react-native-vector-icons/Entypo'
 import DashboardScreen from './screens/DashboardScreen'
 import TransactionsScreen from './screens/TransactionsScreen'
 import ReceiveScreen from './screens/ReceiveScreen'
+import WithdrawScreen from './screens/WithdrawScreen'
 import CurrencyScreen from './screens/CurrencyScreen'
 import AddCurrencyScreen from './screens/AddCurrencyScreen'
 
@@ -18,6 +19,7 @@ const DashboardStack = createStackNavigator({
 
 const AddCurrencyStack = createStackNavigator({ AddCurrencyScreen })
 const ReceiveStack = createStackNavigator({ ReceiveScreen })
+const WithdrawStack = createStackNavigator({ WithdrawScreen })
 
 AddCurrencyStack.navigationOptions = {
   gesturesEnabled: false,
@@ -27,6 +29,7 @@ const DashboardTabStack = createStackNavigator({
   Dashboard: DashboardStack,
   AddCurrency: AddCurrencyStack,
   Receive: ReceiveStack,
+  Withdraw: WithdrawStack,
 }, { mode: 'modal', headerMode: 'none' })
 
 DashboardTabStack.navigationOptions = ({ navigation }) => {
