@@ -1,4 +1,8 @@
-const formatter = new Intl.NumberFormat(undefined, { style: 'decimal', minimumFractionDigits: 2 })
+const formatter = new Intl.NumberFormat(undefined, {
+  style: 'decimal',
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+})
 
 // eslint-disable-next-line import/prefer-default-export
 export function formatCurrency(amount) {

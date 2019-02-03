@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { View, StyleSheet, TouchableOpacity, Text, FlatList } from 'react-native'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect'
-import { createCurrenciesListSelector } from '../../selectors/currencies'
-import { addAccount } from '../../actions'
+import { createCurrenciesListSelector, accountsListSelector } from '../../selectors'
+import { addAccount, setDefaultCurrency } from '../../actions'
 import CloseModalButton from '../../components/CloseModalButton'
 import SeparatorView from '../../components/SeparatorView'
 
@@ -25,6 +25,9 @@ class AddCurrencyScreen extends Component {
 
   handleCurrencyPress = ({ code, symbol_native: native }) => async () => {
     await this.props.addAccount(code, native)
+    if (this.props.isFirstAccount) {
+      await this.props.setDefaultCurrency(code)
+    }
     this.props.navigation.dismiss()
   }
 
@@ -56,6 +59,7 @@ class AddCurrencyScreen extends Component {
         renderItem={this.renderItem}
         keyExtractor={this.keyExtractor}
         getItemLayout={this.getItemLayout}
+        initialNumToRender={20}
         ItemSeparatorComponent={this.renderSeparator}
       />
     )
@@ -64,12 +68,18 @@ class AddCurrencyScreen extends Component {
 
 const mapStateToProps = createSelector(
   createCurrenciesListSelector,
-  ({ currencies }) => ({
-    currencies,
-  })
+  accountsListSelector,
+  ({ currencies }, { accounts }) => {
+    const accountCodes = accounts.map(account => account.code)
+
+    return {
+      isFirstAccount: accounts.length === 0,
+      currencies: currencies.filter(currency => !accountCodes.includes(currency.code)),
+    }
+  }
 )
 
-export default connect(mapStateToProps, { addAccount })(AddCurrencyScreen)
+export default connect(mapStateToProps, { addAccount, setDefaultCurrency })(AddCurrencyScreen)
 
 const styles = StyleSheet.create({
   table: {

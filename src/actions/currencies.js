@@ -6,8 +6,9 @@ import Schemas from '../middleware/schemas'
 export function loadCurrencySymbols() {
   return {
     [RSAA]: {
-      endpoint: 'https://www.localeplanet.com/api/auto/currencymap.json',
+      endpoint: 'https://www.localeplanet.com/api/auto/currencymap.json?name=y',
       method: 'GET',
+      headers: { 'Accept-Language': 'en-US' },
       types: [
         ActionTypes.LOAD_CURRENCY_SYMBOLS_REQUEST,
         {
@@ -22,17 +23,9 @@ export function loadCurrencySymbols() {
   }
 }
 
-export function loadCurrencyNames() {
+export function setDefaultCurrency(code) {
   return {
-    [RSAA]: {
-      endpoint: 'http://data.fixer.io/api/symbols?access_key=3e061f2ed43be15a5b7baf056474d605',
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-      types: [
-        ActionTypes.LOAD_CURRENCY_NAMES_REQUEST,
-        ActionTypes.LOAD_CURRENCY_NAMES_SUCCESS,
-        ActionTypes.LOAD_CURRENCY_NAMES_FAILURE,
-      ],
-    },
+    type: ActionTypes.SET_DEFAULT_CURRENCY,
+    payload: { code },
   }
 }

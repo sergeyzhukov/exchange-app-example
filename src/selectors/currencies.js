@@ -2,7 +2,6 @@ import { createSelector } from 'reselect'
 import { denormalize } from 'normalizr'
 import Schemas from '../middleware/schemas'
 
-// eslint-disable-next-line import/prefer-default-export
 export const createCurrenciesListSelector = createSelector(
   state => state.currencies,
   ({ isFetching, isError, error, result, entities }) => ({
@@ -11,6 +10,11 @@ export const createCurrenciesListSelector = createSelector(
     error,
     currencies: Object.values(denormalize(result, Schemas.CURRENCY_ARRAY, entities)),
   })
+)
+
+export const getDefaultCurrencyCode = createSelector(
+  state => state.currencies,
+  ({ defaultCode }) => defaultCode
 )
 
 export const getCurrenciesDictionarySelector = createSelector(

@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import {
-  View, StyleSheet, Text, SectionList, StatusBar,
-} from 'react-native'
+import { View, StyleSheet, Text, SectionList, StatusBar } from 'react-native'
 import { NavigationEvents } from 'react-navigation'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect'
@@ -9,12 +7,15 @@ import ActionButton from '../../components/ActionButton'
 import TransactionListItem from '../../components/TransactionListItem'
 import TransactionSectionHeader from '../../components/TransactionSectionHeader'
 import SeparatorView from '../../components/SeparatorView'
+import BlueActionButton from '../../components/BlueActionButton'
 import {
   getCurrencyByCodeSelector,
   getTransactionsByAccountListSelector,
   getGroupedTransactionsListSelector,
   getAccountByCodeSelector,
+  getDefaultCurrencyCode,
 } from '../../selectors'
+import { setDefaultCurrency } from '../../actions'
 import { formatCurrency } from '../../utils/formatters'
 
 class CurrencyScreen extends Component {
@@ -31,15 +32,19 @@ class CurrencyScreen extends Component {
   keyExtractor = item => item.uuid
 
   handleActionButton = type => () => {
-    const { navigation } = this.props
+    const { navigation, code } = this.props
 
-    navigation.navigate(type, {
-      code: navigation.getParam('code'),
-    })
+    navigation.navigate(type, { code })
   }
 
   handleFocus = () => {
     StatusBar.setBarStyle('light-content')
+  }
+
+  handleSetDefault = () => {
+    const { navigation, code } = this.props
+
+    this.props.setDefaultCurrency(code)
   }
 
   renderHeader = () => {
@@ -75,7 +80,7 @@ class CurrencyScreen extends Component {
   renderSeparator = () => <SeparatorView />
 
   render() {
-    const { transactions } = this.props
+    const { transactions, code, defaultCode } = this.props
 
     return (
       <View style={styles.container}>
@@ -89,6 +94,12 @@ class CurrencyScreen extends Component {
           keyExtractor={this.keyExtractor}
           ItemSeparatorComponent={this.renderSeparator}
         />
+
+        {defaultCode !== code ? (
+          <View>
+            <BlueActionButton title="Set as Default" onPress={this.handleSetDefault} />
+          </View>
+        ) : null}
       </View>
     )
   }
@@ -98,13 +109,21 @@ const codeSelector = (state, props) => props.navigation.getParam('code')
 const transactionsSelector = getTransactionsByAccountListSelector(codeSelector)
 
 const mapStateToProps = createSelector(
+  codeSelector,
+  getDefaultCurrencyCode,
   getCurrencyByCodeSelector(codeSelector),
   getGroupedTransactionsListSelector(transactionsSelector),
   getAccountByCodeSelector(codeSelector),
-  (currency, transactions, account) => ({ currency, transactions, account })
+  (code, defaultCode, currency, transactions, account) => ({
+    code,
+    defaultCode,
+    currency,
+    transactions,
+    account,
+  })
 )
 
-export default connect(mapStateToProps, null)(CurrencyScreen)
+export default connect(mapStateToProps, { setDefaultCurrency })(CurrencyScreen)
 
 const styles = StyleSheet.create({
   container: {

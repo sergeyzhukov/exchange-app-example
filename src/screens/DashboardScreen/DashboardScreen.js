@@ -12,10 +12,16 @@ import Icon from 'react-native-vector-icons/Entypo'
 import { NavigationEvents } from 'react-navigation'
 import { createSelector } from 'reselect'
 import { connect } from 'react-redux'
-import { loadCurrencyNames, loadCurrencySymbols } from '../../actions'
+import { loadExchangeRates, loadCurrencySymbols } from '../../actions'
 import DashboardListItem from '../../components/DashboardListItem'
 import SeparatorView from '../../components/SeparatorView'
-import { accountsListSelector, getCurrenciesDictionarySelector } from '../../selectors'
+import {
+  accountsListSelector,
+  getCurrenciesDictionarySelector,
+  getDefaultCurrencyCode,
+  getExchangeRates,
+} from '../../selectors'
+import { formatCurrency } from '../../utils/formatters'
 
 class DashboardScreen extends Component {
   static navigationOptions = {
@@ -27,9 +33,19 @@ class DashboardScreen extends Component {
   }
 
   componentDidMount() {
-    this.props.loadCurrencySymbols().then(() => {
-      this.props.loadCurrencyNames()
-    })
+    const { defaultCode } = this.props
+
+    if (defaultCode) {
+      this.props.loadExchangeRates(defaultCode)
+    }
+
+    this.props.loadCurrencySymbols()
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.defaultCode !== this.props.defaultCode) {
+      this.props.loadExchangeRates(nextProps.defaultCode)
+    }
   }
 
   handleTabFocus = () => {
@@ -52,12 +68,16 @@ class DashboardScreen extends Component {
     })
   }
 
-  renderHeader = () => (
-    <View style={styles.topContainer}>
-      <Text style={styles.topTotal}>Total balance</Text>
-      <Text style={styles.topTotalValue}>32 USD</Text>
-    </View>
-  )
+  renderHeader = () => {
+    const { totalValue, defaultCode } = this.props
+
+    return (
+      <View style={styles.topContainer}>
+        <Text style={styles.topTotal}>Total balance</Text>
+        <Text style={styles.topTotalValue}>{formatCurrency(totalValue)} {defaultCode}</Text>
+      </View>
+    )
+  }
 
   renderSeparator = () => <SeparatorView />
 
@@ -105,12 +125,24 @@ class DashboardScreen extends Component {
 const mapStateToProps = createSelector(
   accountsListSelector,
   getCurrenciesDictionarySelector,
-  ({ accounts }, { currencies }) => ({ accounts, currencies })
+  getDefaultCurrencyCode,
+  getExchangeRates,
+  ({ accounts }, { currencies }, defaultCode, rates) => ({
+    accounts,
+    currencies,
+    defaultCode,
+    totalValue: accounts.reduce((acc, v) => {
+      if (v.code === defaultCode) {
+        return acc + v.balance
+      }
+      return acc + rates[`${v.code}/${defaultCode}`] * v.balance
+    }, 0),
+  })
 )
 
 export default connect(
   mapStateToProps,
-  { loadCurrencyNames, loadCurrencySymbols }
+  { loadExchangeRates, loadCurrencySymbols }
 )(DashboardScreen)
 
 const styles = StyleSheet.create({
