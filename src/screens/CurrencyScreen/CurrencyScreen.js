@@ -42,7 +42,7 @@ class CurrencyScreen extends Component {
   }
 
   handleSetDefault = () => {
-    const { navigation, code } = this.props
+    const { code } = this.props
 
     this.props.setDefaultCurrency(code)
   }
@@ -53,7 +53,9 @@ class CurrencyScreen extends Component {
     return (
       <View style={styles.topContainer}>
         <Text style={styles.topTotal}>{currency.name}</Text>
-        <Text style={styles.topTotalValue}>{formatCurrency(account.balance)} {currency.symbol_native}</Text>
+        <Text style={styles.topTotalValue}>
+          {formatCurrency(account.balance)} {currency.symbol_native}
+        </Text>
         <View style={styles.actionsContainer}>
           <ActionButton
             title="WITHDRAW"

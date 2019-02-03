@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import {
-  View, StyleSheet, SafeAreaView, StatusBar, SectionList,
-} from 'react-native'
+import { StyleSheet, SafeAreaView, StatusBar, SectionList } from 'react-native'
 import { connect } from 'react-redux'
 import { NavigationEvents } from 'react-navigation'
 import { createSelector } from 'reselect'

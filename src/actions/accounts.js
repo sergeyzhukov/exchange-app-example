@@ -20,4 +20,3 @@ export function withdrawalFundsFromAccount(code, amount, symbol) {
     payload: { code, amount, symbol },
   }
 }
-

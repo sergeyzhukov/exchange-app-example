@@ -1,5 +1,5 @@
+import { reduce } from 'lodash'
 import ActionTypes from '../middleware/actionTypes'
-import { reduce, pick } from 'lodash'
 
 const initialState = {}
 
@@ -17,7 +17,7 @@ export function rates(state = initialState, action) {
         acc[inverseKey] = v.inverseRate
         return acc
       }, {})
-      console.log(exchangeRates)
+
       return exchangeRates
     }
     default:
