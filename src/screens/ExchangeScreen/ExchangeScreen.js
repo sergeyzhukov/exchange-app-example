@@ -31,7 +31,11 @@ import {
   getAccountByCodeSelector,
 } from '../../selectors'
 import { formatCurrency } from '../../utils/formatters'
-import { validationRequired, validationMoreThan0, normalizeCurrency } from '../../utils/reduxFormHelpers'
+import {
+  validationRequired,
+  validationMoreThan0,
+  normalizeCurrency,
+} from '../../utils/reduxFormHelpers'
 
 const deviceWidth = Dimensions.get('window').width
 const FORM_NAME = 'exchange'

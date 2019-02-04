@@ -1,0 +1,87 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render <MaterialFormTextInput /> 1`] = `
+<View>
+  <TextInput
+    allowFontScaling={true}
+    style={
+      Object {
+        "borderBottomColor": "#cccccc",
+        "borderBottomWidth": 0.5,
+        "fontSize": 17,
+        "paddingBottom": 6,
+        "paddingTop": 4,
+      }
+    }
+    underlineColorAndroid="transparent"
+    value=""
+  />
+</View>
+`;
+
+exports[`render <MaterialFormTextInput /> with error 1`] = `
+<View>
+  <Text
+    style={
+      Object {
+        "color": "#4072B8",
+        "fontSize": 13,
+        "fontWeight": "500",
+      }
+    }
+  />
+  <TextInput
+    allowFontScaling={true}
+    style={
+      Object {
+        "borderBottomColor": "#cccccc",
+        "borderBottomWidth": 0.5,
+        "fontSize": 17,
+        "paddingBottom": 6,
+        "paddingTop": 4,
+      }
+    }
+    underlineColorAndroid="transparent"
+    value="test"
+  />
+  <Text
+    style={
+      Object {
+        "color": "red",
+        "fontSize": 13,
+        "marginTop": 4,
+      }
+    }
+  >
+    Error
+  </Text>
+</View>
+`;
+
+exports[`render <MaterialFormTextInput /> with some input  1`] = `
+<View>
+  <Text
+    style={
+      Object {
+        "color": "#4072B8",
+        "fontSize": 13,
+        "fontWeight": "500",
+      }
+    }
+  />
+  <TextInput
+    allowFontScaling={true}
+    style={
+      Object {
+        "borderBottomColor": "#cccccc",
+        "borderBottomWidth": 0.5,
+        "fontSize": 17,
+        "paddingBottom": 6,
+        "paddingTop": 4,
+      }
+    }
+    underlineColorAndroid="transparent"
+    value="test"
+  />
+</View>
+`;

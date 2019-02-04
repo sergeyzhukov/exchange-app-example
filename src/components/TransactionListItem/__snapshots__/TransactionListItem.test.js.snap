@@ -1,0 +1,235 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render <TransactionListItem /> with receive tx 1`] = `
+<View
+  accessible={true}
+  isTVSelectable={true}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "flexDirection": "row",
+      "opacity": 1,
+      "paddingHorizontal": 16,
+      "paddingVertical": 8,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "backgroundColor": "#efefef",
+        "borderRadius": 20,
+        "height": 40,
+        "marginRight": 12,
+        "width": 40,
+      }
+    }
+  />
+  <View
+    style={
+      Object {
+        "flex": 1,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "black",
+          "fontSize": 14,
+          "letterSpacing": -0.2,
+        }
+      }
+    >
+      
+      Incoming transfer
+    </Text>
+    <Text
+      style={
+        Object {
+          "color": "#999999",
+          "fontSize": 12,
+          "marginTop": 4,
+        }
+      }
+    >
+      04:00:00
+    </Text>
+  </View>
+  <Text
+    style={
+      Object {
+        "color": "black",
+        "fontSize": 17,
+      }
+    }
+  >
+    +
+    33.00
+    $
+  </Text>
+</View>
+`;
+
+exports[`render <TransactionListItem /> with withdraw tx 1`] = `
+<View
+  accessible={true}
+  isTVSelectable={true}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "flexDirection": "row",
+      "opacity": 1,
+      "paddingHorizontal": 16,
+      "paddingVertical": 8,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "backgroundColor": "#efefef",
+        "borderRadius": 20,
+        "height": 40,
+        "marginRight": 12,
+        "width": 40,
+      }
+    }
+  />
+  <View
+    style={
+      Object {
+        "flex": 1,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "black",
+          "fontSize": 14,
+          "letterSpacing": -0.2,
+        }
+      }
+    >
+      
+      Outgoing transfer
+    </Text>
+    <Text
+      style={
+        Object {
+          "color": "#999999",
+          "fontSize": 12,
+          "marginTop": 4,
+        }
+      }
+    >
+      04:00:00
+    </Text>
+  </View>
+  <Text
+    style={
+      Object {
+        "color": "black",
+        "fontSize": 17,
+      }
+    }
+  >
+    -
+    33.00
+    $
+  </Text>
+</View>
+`;
+
+exports[`render <TransactionListItem /> with withdraw tx and showAccount 1`] = `
+<View
+  accessible={true}
+  isTVSelectable={true}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "flexDirection": "row",
+      "opacity": 1,
+      "paddingHorizontal": 16,
+      "paddingVertical": 8,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "backgroundColor": "#efefef",
+        "borderRadius": 20,
+        "height": 40,
+        "marginRight": 12,
+        "width": 40,
+      }
+    }
+  />
+  <View
+    style={
+      Object {
+        "flex": 1,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "black",
+          "fontSize": 14,
+          "letterSpacing": -0.2,
+        }
+      }
+    >
+      (USD) 
+      Outgoing transfer
+    </Text>
+    <Text
+      style={
+        Object {
+          "color": "#999999",
+          "fontSize": 12,
+          "marginTop": 4,
+        }
+      }
+    >
+      04:00:00
+    </Text>
+  </View>
+  <Text
+    style={
+      Object {
+        "color": "black",
+        "fontSize": 17,
+      }
+    }
+  >
+    -
+    33.00
+    $
+  </Text>
+</View>
+`;

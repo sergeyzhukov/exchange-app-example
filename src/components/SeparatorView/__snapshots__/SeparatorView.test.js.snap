@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#C8C7CC",
+      "height": 0.5,
+      "marginLeft": 16,
+    }
+  }
+/>
+`;
