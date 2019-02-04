@@ -2,22 +2,20 @@ import React, { PureComponent } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { formatCurrency } from '../../utils/formatters'
 
-export default class DashboardListItem extends PureComponent {
-  render() {
-    const { code, balance, nativeSymbol, name, onPress } = this.props
-
-    return (
-      <TouchableOpacity style={styles.container} onPress={onPress}>
-        <View style={styles.icon} />
-        <View style={styles.textContainer}>
-          <Text style={styles.code}>{code}</Text>
-          <Text style={styles.name} numberOfLines={1}>{name}</Text>
-        </View>
-        <Text style={styles.amount}>{formatCurrency(balance)} {nativeSymbol}</Text>
-      </TouchableOpacity>
-    )
-  }
-}
+export default ({ code, balance, nativeSymbol, name, onPress }) => (
+  <TouchableOpacity style={styles.container} onPress={onPress}>
+    <View style={styles.icon} />
+    <View style={styles.textContainer}>
+      <Text style={styles.code}>{code}</Text>
+      <Text style={styles.name} numberOfLines={1}>
+        {name}
+      </Text>
+    </View>
+    <Text style={styles.amount}>
+      {formatCurrency(balance)} {nativeSymbol}
+    </Text>
+  </TouchableOpacity>
+)
 
 const styles = StyleSheet.create({
   container: {
