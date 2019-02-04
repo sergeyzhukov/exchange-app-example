@@ -18,7 +18,10 @@ export function rates(state = initialState, action) {
         return acc
       }, {})
 
-      return exchangeRates
+      return {
+        ...state,
+        ...exchangeRates,
+      }
     }
     default:
       break

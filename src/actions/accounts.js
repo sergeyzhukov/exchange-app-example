@@ -20,3 +20,10 @@ export function withdrawalFundsFromAccount(code, amount, symbol) {
     payload: { code, amount, symbol },
   }
 }
+
+export function exchangeFunds(fromCode, toCode, amount, rate) {
+  return {
+    type: ActionTypes.ACCOUNT_EXCHANGE,
+    payload: { fromCode, toCode, amount, rate },
+  }
+}

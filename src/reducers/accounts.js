@@ -30,6 +30,19 @@ export function accounts(state = initialState, action) {
         [payload.code]: { ...account, balance: account.balance - payload.amount },
       }
     }
+    case ActionTypes.ACCOUNT_EXCHANGE: {
+      const { fromCode, toCode, amount, rate } = payload
+
+      const fromAccount = state[fromCode]
+      const toAccount = state[toCode]
+
+      return {
+        ...state,
+        [fromCode]: { ...fromAccount, balance: fromAccount.balance - amount },
+        [toCode]: { ...toAccount, balance: toAccount.balance + amount * rate },
+      }
+    }
+
     default:
       break
   }

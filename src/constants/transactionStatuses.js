@@ -8,8 +8,12 @@ export default {
     increase: false,
     description: 'Outgoing transfer',
   },
-  exchange: {
+  exchangeFrom: {
     increase: false,
+    description: 'Exchange money',
+  },
+  exchangeTo: {
+    increase: true,
     description: 'Exchange money',
   },
 }

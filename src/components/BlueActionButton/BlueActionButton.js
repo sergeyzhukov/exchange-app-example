@@ -1,8 +1,12 @@
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 
-export default ({ title, onPress, style }) => (
-  <TouchableOpacity style={[styles.container, style]} onPress={onPress}>
+export default ({ title, onPress, style, disabled = false }) => (
+  <TouchableOpacity
+    style={[styles.container, style, disabled && styles.disabled]}
+    onPress={onPress}
+    disabled={disabled}
+  >
     <Text style={styles.title}>{title}</Text>
   </TouchableOpacity>
 )
@@ -18,5 +22,8 @@ const styles = StyleSheet.create({
   title: {
     color: 'white',
     fontSize: 16,
+  },
+  disabled: {
+    opacity: 0.3,
   },
 })

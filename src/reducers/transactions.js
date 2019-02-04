@@ -12,7 +12,6 @@ export function transactions(state = initialState, action) {
       const newTransaction = {
         uuid: uuid(),
         account: payload.code,
-        symbol: payload.symbol,
         amount: payload.amount,
         operation: 'receive',
         timestamp: Date.now(),
@@ -26,7 +25,6 @@ export function transactions(state = initialState, action) {
       const newTransaction = {
         uuid: uuid(),
         account: payload.code,
-        symbol: payload.symbol,
         amount: payload.amount,
         operation: 'withdrawal',
         timestamp: Date.now(),
@@ -34,6 +32,31 @@ export function transactions(state = initialState, action) {
       return [
         ...state,
         newTransaction,
+      ]
+    }
+    case ActionTypes.ACCOUNT_EXCHANGE: {
+      const { fromCode, toCode, amount, rate } = payload
+
+      const fromTransaction = {
+        uuid: uuid(),
+        account: fromCode,
+        amount,
+        operation: 'exchangeFrom',
+        timestamp: Date.now(),
+      }
+
+      const toTransaction = {
+        uuid: uuid(),
+        account: toCode,
+        amount: amount * rate,
+        operation: 'exchangeTo',
+        timestamp: Date.now(),
+      }
+
+      return [
+        ...state,
+        fromTransaction,
+        toTransaction,
       ]
     }
     default:

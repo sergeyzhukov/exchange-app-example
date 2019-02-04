@@ -11,6 +11,7 @@ import ReceiveScreen from './screens/ReceiveScreen'
 import WithdrawScreen from './screens/WithdrawScreen'
 import CurrencyScreen from './screens/CurrencyScreen'
 import AddCurrencyScreen from './screens/AddCurrencyScreen'
+import ExchangeScreen from './screens/ExchangeScreen'
 
 const DashboardStack = createStackNavigator({
   Dashboard: DashboardScreen,
@@ -20,6 +21,7 @@ const DashboardStack = createStackNavigator({
 const AddCurrencyStack = createStackNavigator({ AddCurrencyScreen })
 const ReceiveStack = createStackNavigator({ ReceiveScreen })
 const WithdrawStack = createStackNavigator({ WithdrawScreen })
+const ExchangeStack = createStackNavigator({ ExchangeScreen })
 
 AddCurrencyStack.navigationOptions = {
   gesturesEnabled: false,
@@ -30,6 +32,7 @@ const DashboardTabStack = createStackNavigator({
   AddCurrency: AddCurrencyStack,
   Receive: ReceiveStack,
   Withdraw: WithdrawStack,
+  Exchange: ExchangeStack,
 }, { mode: 'modal', headerMode: 'none' })
 
 DashboardTabStack.navigationOptions = ({ navigation }) => {

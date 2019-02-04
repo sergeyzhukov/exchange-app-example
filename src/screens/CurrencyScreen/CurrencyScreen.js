@@ -62,7 +62,11 @@ class CurrencyScreen extends Component {
             iconName="arrow-with-circle-up"
             onPress={this.handleActionButton('Withdraw')}
           />
-          <ActionButton title="EXCHANGE" iconName="swap" />
+          <ActionButton
+            title="EXCHANGE"
+            iconName="swap"
+            onPress={this.handleActionButton('Exchange')}
+          />
           <ActionButton
             title="RECEIVE"
             iconName="arrow-with-circle-down"
