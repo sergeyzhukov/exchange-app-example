@@ -9,6 +9,7 @@ import {
   Dimensions,
 } from 'react-native'
 import { NavigationEvents } from 'react-navigation'
+import TouchID from 'react-native-touch-id'
 import {
   reduxForm,
   Field,
@@ -59,24 +60,26 @@ class ExchangeScreen extends Component {
 
   handleExchangePress = async (params) => {
     const { amount } = params
-    const { currentAccount, accounts, rates } = this.props
+    const { currentAccount } = this.props
 
     if (amount > currentAccount.balance) {
       throw new SubmissionError({ amount: 'Insufficient funds' })
     }
 
-    const { currentAccountIndex } = this.state
-    const selectedAccount = accounts[currentAccountIndex]
-    const rateKey = `${currentAccount.code}/${selectedAccount.code}`
-
-    // const code = this.props.navigation.getParam('code')
-    await this.props.exchangeFunds(
-      currentAccount.code,
-      selectedAccount.code,
-      Number(amount),
-      rates[rateKey]
-    )
-    this.props.navigation.dismiss()
+    try {
+      await TouchID.isSupported()
+      const authentificated = await TouchID.authenticate(
+        `to perform exchange of ${amount} ${currentAccount.code}`,
+        { passcodeFallback: false }
+      )
+      if (authentificated) {
+        this.performExchangeForCurrentAccount(amount)
+      }
+    } catch (error) {
+      if (error.name === 'RCTTouchIDNotSupported') {
+        this.performExchangeForCurrentAccount(amount)
+      }
+    }
   }
 
   handleScrollDrag = (event) => {
@@ -88,6 +91,21 @@ class ExchangeScreen extends Component {
     if (page !== currentAccountIndex) {
       this.setState({ currentAccountIndex: page })
     }
+  }
+
+  performExchangeForCurrentAccount = async (amount) => {
+    const { currentAccountIndex } = this.state
+    const { currentAccount, accounts, rates } = this.props
+    const selectedAccount = accounts[currentAccountIndex]
+    const rateKey = `${currentAccount.code}/${selectedAccount.code}`
+
+    await this.props.exchangeFunds(
+      currentAccount.code,
+      selectedAccount.code,
+      Number(amount),
+      rates[rateKey]
+    )
+    this.props.navigation.dismiss()
   }
 
   renderAccountsToExchange = () => {
