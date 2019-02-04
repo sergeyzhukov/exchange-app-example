@@ -1,5 +1,6 @@
 import React from 'react'
 import { View, StyleSheet, Text, TextInput } from 'react-native'
+import Colors from '../../utils/colors'
 
 export default ({ input, title, meta, ...inputProps }) => {
   const { touched, error } = meta
@@ -22,7 +23,7 @@ export default ({ input, title, meta, ...inputProps }) => {
 
 const styles = StyleSheet.create({
   placeholder: {
-    color: '#4072B8',
+    color: Colors.BRAND,
     fontWeight: '500',
     fontSize: 13,
   },

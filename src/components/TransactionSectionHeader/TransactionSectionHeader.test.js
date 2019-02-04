@@ -7,5 +7,3 @@ test('renders correctly', () => {
   const tree = renderer.create(component).toJSON()
   expect(tree).toMatchSnapshot()
 })
-
-

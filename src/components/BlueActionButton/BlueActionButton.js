@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
+import Colors from '../../utils/colors'
 
 export default ({ title, onPress, style, disabled = false }) => (
   <TouchableOpacity
@@ -13,7 +14,7 @@ export default ({ title, onPress, style, disabled = false }) => (
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#4072B8',
+    backgroundColor: Colors.BRAND,
     height: 44,
     alignItems: 'center',
     justifyContent: 'center',

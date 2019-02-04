@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Text, SectionList, StatusBar } from 'react-native'
+import { View, StyleSheet, Text, SectionList, StatusBar, Platform } from 'react-native'
 import { NavigationEvents } from 'react-navigation'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect'
@@ -17,12 +17,12 @@ import {
 } from '../../selectors'
 import { setDefaultCurrency } from '../../actions'
 import { formatCurrency } from '../../utils/formatters'
+import Colors from '../../utils/colors'
 
 class CurrencyScreen extends Component {
   static navigationOptions = {
     tabBarVisible: false,
     headerStyle: {
-      // backgroundColor: '#4072B8',
       borderBottomWidth: 0,
     },
     headerTransparent: true,
@@ -39,6 +39,9 @@ class CurrencyScreen extends Component {
 
   handleFocus = () => {
     StatusBar.setBarStyle('light-content')
+    if (Platform.OS === 'android') {
+      StatusBar.setBackgroundColor(Colors.BRAND)
+    }
   }
 
   handleSetDefault = () => {
@@ -133,7 +136,7 @@ export default connect(mapStateToProps, { setDefaultCurrency })(CurrencyScreen)
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#4072B8',
+    backgroundColor: Colors.BRAND,
     flex: 1,
   },
   table: {
@@ -150,7 +153,7 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     paddingTop: 36,
     marginBottom: 4,
-    backgroundColor: '#4072B8',
+    backgroundColor: Colors.BRAND,
   },
   topTotal: {
     color: 'white',

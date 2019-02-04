@@ -13,4 +13,3 @@ test('renders correctly width disabled', () => {
   const tree = renderer.create(component).toJSON()
   expect(tree).toMatchSnapshot()
 })
-

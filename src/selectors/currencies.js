@@ -2,7 +2,7 @@ import { createSelector } from 'reselect'
 import { denormalize } from 'normalizr'
 import Schemas from '../middleware/schemas'
 
-export const createCurrenciesListSelector = createSelector(
+export const currenciesListSelector = createSelector(
   state => state.currencies,
   ({ isFetching, isError, error, result, entities }) => ({
     isFetching,

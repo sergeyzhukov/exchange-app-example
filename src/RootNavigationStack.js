@@ -12,6 +12,7 @@ import WithdrawScreen from './screens/WithdrawScreen'
 import CurrencyScreen from './screens/CurrencyScreen'
 import AddCurrencyScreen from './screens/AddCurrencyScreen'
 import ExchangeScreen from './screens/ExchangeScreen'
+import Colors from './utils/colors'
 
 const DashboardStack = createStackNavigator({
   Dashboard: DashboardScreen,
@@ -56,7 +57,7 @@ const TransactionsStack = createStackNavigator({
 
 TransactionsStack.navigationOptions = {
   tabBarLabel: 'Transactions',
-  headerTintColor: '#4072B8',
+  headerTintColor: Colors.BRAND,
   tabBarIcon: ({ tintColor }) => (
     <Icon name="list" size={22} color={tintColor} />
   ),
@@ -66,7 +67,7 @@ export default () => createAppContainer(createBottomTabNavigator(
   { Dashboard: DashboardTabStack, Transactions: TransactionsStack },
   {
     tabBarOptions: {
-      activeTintColor: '#4072B8',
+      activeTintColor: Colors.BRAND,
     },
   }
 ))

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, StatusBar } from 'react-native'
+import { View, StyleSheet, StatusBar, Platform } from 'react-native'
 import { NavigationEvents } from 'react-navigation'
 import { reduxForm, Field } from 'redux-form'
 import { connect } from 'react-redux'
@@ -25,10 +25,9 @@ class WithdrawScreen extends Component {
 
   handleFocus = () => {
     StatusBar.setBarStyle('dark-content')
-  }
-
-  handleBlur = () => {
-    StatusBar.setBarStyle('light-content')
+    if (Platform.OS === 'android') {
+      StatusBar.setBackgroundColor('#FFFFFF')
+    }
   }
 
   handleReceivePress = async (params) => {
@@ -42,7 +41,7 @@ class WithdrawScreen extends Component {
 
     return (
       <View style={styles.container}>
-        <NavigationEvents onWillFocus={this.handleFocus} onWillBlur={this.handleBlur} />
+        <NavigationEvents onWillFocus={this.handleFocus} />
         <Field
           name="amount"
           component={MaterialFormTextInput}

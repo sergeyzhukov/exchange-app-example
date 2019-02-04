@@ -44,7 +44,7 @@ exports[`renders correctly 1`] = `
         Object {
           "color": "#000000",
           "fontSize": 16,
-          "fontWeight": "500",
+          "fontWeight": "400",
         }
       }
     />
@@ -68,7 +68,7 @@ exports[`renders correctly 1`] = `
       }
     }
   >
-    NaN
+    0.00
      
   </Text>
 </View>

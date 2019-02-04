@@ -10,6 +10,7 @@ import {
   getGroupedTransactionsListSelector,
   getTransactionsListSelector,
 } from '../../selectors'
+import Colors from '../../utils/colors'
 
 class TransactionsScreen extends Component {
   static navigationOptions = {
@@ -59,7 +60,7 @@ export default connect(mapStateToProps, null)(TransactionsScreen)
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#4072B8',
+    backgroundColor: Colors.BRAND,
     flex: 1,
   },
   table: {

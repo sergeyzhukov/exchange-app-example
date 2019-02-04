@@ -4,6 +4,7 @@ import {
   StyleSheet,
   SafeAreaView,
   StatusBar,
+  Platform,
   Text,
   FlatList,
   TouchableOpacity,
@@ -22,6 +23,7 @@ import {
   getExchangeRates,
 } from '../../selectors'
 import { formatCurrency } from '../../utils/formatters'
+import Colors from '../../utils/colors'
 
 class DashboardScreen extends Component {
   static navigationOptions = {
@@ -50,10 +52,16 @@ class DashboardScreen extends Component {
 
   handleTabFocus = () => {
     StatusBar.setBarStyle('light-content')
+    if (Platform.OS === 'android') {
+      StatusBar.setBackgroundColor(Colors.BRAND)
+    }
   }
 
   handleBlur = () => {
     StatusBar.setBarStyle('dark-content')
+    if (Platform.OS === 'android') {
+      StatusBar.setBackgroundColor('#FFFFFF')
+    }
   }
 
   keyExtractor = item => `${item.type}_${item.code}`
@@ -147,13 +155,13 @@ export default connect(
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#4072B8',
+    backgroundColor: Colors.BRAND,
     flex: 1,
   },
   addButton: {
     width: 48,
     height: 48,
-    backgroundColor: '#4072B8',
+    backgroundColor: Colors.BRAND,
     borderRadius: 24,
     position: 'absolute',
     shadowOffset: { width: 0, height: 2 },
@@ -178,7 +186,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 24,
     paddingBottom: 16,
-    backgroundColor: '#4072B8',
+    backgroundColor: Colors.BRAND,
   },
   topTotal: {
     color: 'white',

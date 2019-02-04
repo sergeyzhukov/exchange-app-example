@@ -6,6 +6,7 @@ import {
   TextInput,
   Text,
   ScrollView,
+  Platform,
   Dimensions,
 } from 'react-native'
 import { NavigationEvents } from 'react-navigation'
@@ -36,6 +37,7 @@ import {
   validationMoreThan0,
   normalizeCurrency,
 } from '../../utils/reduxFormHelpers'
+import Colors from '../../utils/colors'
 
 const deviceWidth = Dimensions.get('window').width
 const FORM_NAME = 'exchange'
@@ -56,10 +58,9 @@ class ExchangeScreen extends Component {
 
   handleFocus = () => {
     StatusBar.setBarStyle('dark-content')
-  }
-
-  handleBlur = () => {
-    StatusBar.setBarStyle('light-content')
+    if (Platform.OS === 'android') {
+      StatusBar.setBackgroundColor('#FFFFFF')
+    }
   }
 
   handleExchangePress = async (params) => {
@@ -80,7 +81,7 @@ class ExchangeScreen extends Component {
         this.performExchangeForCurrentAccount(amount)
       }
     } catch (error) {
-      if (error.name === 'RCTTouchIDNotSupported') {
+      if (error.details === 'Not supported.' || error.name === 'RCTTouchIDNotSupported') {
         this.performExchangeForCurrentAccount(amount)
       }
     }
@@ -178,7 +179,7 @@ class ExchangeScreen extends Component {
 
     return (
       <View style={styles.container}>
-        <NavigationEvents onWillFocus={this.handleFocus} onWillBlur={this.handleBlur} />
+        <NavigationEvents onWillFocus={this.handleFocus} />
         <View style={styles.exchangeContainer}>
           <View style={styles.codeContainer}>
             <Text style={styles.code}>{currentAccount.code}</Text>
@@ -203,7 +204,7 @@ class ExchangeScreen extends Component {
         <View>
           {this.renderAccountsToExchange()}
         </View>
-        {this.renderPageIndicators()}
+        {accounts.length > 1 && this.renderPageIndicators()}
         <BlueActionButton
           title="Exchange"
           disabled={!isFormValid}
@@ -248,6 +249,7 @@ const styles = StyleSheet.create({
   code: {
     fontWeight: '300',
     fontSize: 32,
+    color: '#000000',
   },
   error: {
     fontSize: 13,
@@ -294,11 +296,11 @@ const styles = StyleSheet.create({
     height: 6,
     borderRadius: 3,
     marginHorizontal: 4,
-    backgroundColor: '#4072B8',
+    backgroundColor: Colors.BRAND,
     opacity: 0.2,
   },
   pageIndicatorActive: {
-    backgroundColor: '#4072B8',
+    backgroundColor: Colors.BRAND,
     opacity: 1.0,
   },
   pageIndicatorsContainer: {

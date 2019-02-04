@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { View, StyleSheet, TouchableOpacity, Text, FlatList } from 'react-native'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect'
-import { createCurrenciesListSelector, accountsListSelector } from '../../selectors'
+import { currenciesListSelector, accountsListSelector } from '../../selectors'
 import { addAccount, setDefaultCurrency } from '../../actions'
 import CloseModalButton from '../../components/CloseModalButton'
 import SeparatorView from '../../components/SeparatorView'
@@ -24,8 +24,10 @@ class AddCurrencyScreen extends Component {
   )
 
   handleCurrencyPress = ({ code, symbol_native: native }) => async () => {
+    const { isFirstAccount } = this.props
+
     await this.props.addAccount(code, native)
-    if (this.props.isFirstAccount) {
+    if (isFirstAccount) {
       await this.props.setDefaultCurrency(code)
     }
     this.props.navigation.dismiss()
@@ -67,13 +69,14 @@ class AddCurrencyScreen extends Component {
 }
 
 const mapStateToProps = createSelector(
-  createCurrenciesListSelector,
+  currenciesListSelector,
   accountsListSelector,
   ({ currencies }, { accounts }) => {
     const accountCodes = accounts.map(account => account.code)
 
     return {
-      isFirstAccount: accounts.length === 0,
+      accounts,
+      isFirstAccount: accountCodes.length === 0,
       currencies: currencies.filter(currency => !accountCodes.includes(currency.code)),
     }
   }
