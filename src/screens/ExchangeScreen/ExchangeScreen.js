@@ -108,6 +108,25 @@ class ExchangeScreen extends Component {
     this.props.navigation.dismiss()
   }
 
+  renderPageIndicators = () => {
+    const { accounts } = this.props
+    const { currentAccountIndex } = this.state
+
+    return (
+      <View style={styles.pageIndicatorsContainer}>
+        {accounts.map((account, index) => (
+          <View
+            key={`page_${account.code}`}
+            style={[
+              styles.pageIndicator,
+              (currentAccountIndex === index) && styles.pageIndicatorActive,
+            ]}
+          />
+        ))}
+      </View>
+    )
+  }
+
   renderAccountsToExchange = () => {
     const { accounts, rates, currentAccount, amount } = this.props
 
@@ -180,6 +199,7 @@ class ExchangeScreen extends Component {
         <View>
           {this.renderAccountsToExchange()}
         </View>
+        {this.renderPageIndicators()}
         <BlueActionButton
           title="Exchange"
           disabled={!isFormValid}
@@ -231,7 +251,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   receiveButton: {
-    marginTop: 48,
+    marginTop: 40,
     marginHorizontal: 16,
   },
   input: {
@@ -264,5 +284,23 @@ const styles = StyleSheet.create({
   balance: {
     color: '#747474',
     fontSize: 12,
+  },
+  pageIndicator: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    marginHorizontal: 4,
+    backgroundColor: '#4072B8',
+    opacity: 0.2,
+  },
+  pageIndicatorActive: {
+    backgroundColor: '#4072B8',
+    opacity: 1.0,
+  },
+  pageIndicatorsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 8,
   },
 })
