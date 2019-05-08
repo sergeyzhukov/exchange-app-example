@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Text, SectionList, StatusBar, Platform } from 'react-native'
+import { View, SafeAreaView, StyleSheet, Text, SectionList, StatusBar, Platform } from 'react-native'
 import { NavigationEvents } from 'react-navigation'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect'
@@ -92,7 +92,7 @@ class CurrencyScreen extends Component {
     const { transactions, code, defaultCode } = this.props
 
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <NavigationEvents onWillFocus={this.handleFocus} />
         {this.renderHeader()}
         <SectionList
@@ -109,7 +109,7 @@ class CurrencyScreen extends Component {
             <BlueActionButton title="Set as Default" onPress={this.handleSetDefault} />
           </View>
         ) : null}
-      </View>
+      </SafeAreaView>
     )
   }
 }

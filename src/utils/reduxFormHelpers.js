@@ -3,9 +3,9 @@ export const validationRequired = value => (value ? undefined : 'This field is r
 export const validationMoreThan0 = value => (parseFloat(value) > 0 ? undefined : 'Amount should be more than 0')
 
 export const normalizeCurrency = (value) => {
-  if (!value) {
-    return value
-  }
+  // if (!value) {
+  //   return value
+  // }
 
   const math = value.replace(/[^\d,.]/g, '')
     .replace(',', '.')
