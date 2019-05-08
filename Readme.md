@@ -1,4 +1,4 @@
-Example project for Paybear. 
+Example project. 
 
 ![screen](img/screen.png)
 
@@ -34,8 +34,6 @@ react-native run-ios
 - Code coverage by tests is not 100%. I added some tests just to show some experience. Also in production app should be added e2e tests using Detox.
 
 - No Touch ID on login.
-
-- No animations. I don't know what to animate in current design.
 
 - No icons for TX and accounts, just gray circle. 
 
